@@ -1,0 +1,37 @@
+#include <iostream>
+#include <memory>
+#include <string>
+using namespace std;
+class Dog
+{
+    private:
+     string name;
+     public:
+     Dog(string dogname) { name = dogname; cout<<"Dog created with name "<<name<<endl; }
+     ~Dog() { cout<<"Dog destroyed";}
+    void bark()
+    {
+        cout<<"Bho bho..!!"<<endl;
+    }
+    
+};
+
+int main() {
+   shared_ptr<Dog> dog = make_shared<Dog>("Tommy");  //Create Tommy object, it has default deleter
+   
+   //When we need to delete the object in our own way then it's necessarry to create shared pointer cunscturtor method 
+   shared_ptr<Dog> dog1= shared_ptr<Dog>(new Dog("abc"),                  
+                                         [](Dog *p) { cout<<"callin My destructor"<<endl; delete p;} );  //lembda function for distruuctor
+   dog = dog1;        //here Tommy deleted, when we assign some other pointer to shared then previous object gets deleted
+   dog1->bark();
+   
+   shared_ptr<Dog> billa= shared_ptr<Dog>(new Dog[3]);  //here billa[1] and bill[2] don't be deleted,it gives memory leak
+   shared_ptr<Dog> billa = shared_ptr<Dog>(new Dog[3],
+                                            [](){delete[] dog});  //Delete all billa[1],billa[2],billa[3] so no memory leak
+                                            
+                                            
+                                           
+   
+   
+   return 0;
+}
