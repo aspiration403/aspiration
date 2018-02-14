@@ -1,0 +1,67 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+/******************************************************************************
+Conversion of class to primitive type
+
+*******************************************************************************/
+
+#include <iostream>
+using namespace std;
+
+class item
+{
+    int a,b;
+    public:
+    void showdata() { cout<<"A="<<a<<"B= "<<b<<endl;}
+    void setdata(int m, int n)
+    {
+        a = m;
+        b = n;
+    }
+ 
+    operator int()     //here this statement signifies   operator return_type() { return data}
+    {
+        return a;
+    }
+#if 0       //constructor method to do primitive type to non-primitive type conversion
+    item(int num)
+    {
+        a = num;
+        b = 0;
+    }
+#endif    
+    
+    item() { a= 0; b = 0;}
+    
+    /*operator overloading of assignment operator to handle primitive to non-primitive conversion */
+    int operator=(int num)
+    {
+        a =num;
+        b =0;
+    }
+    
+};
+
+int main()
+{
+  int num;
+  item item1;
+  item1.setdata(30,40);
+  num = item1;                //we use operator casting to do this job; non-primitive to primitive conversion
+  cout<<"Num = "<<num;
+  item item2;                //It needs constructor
+  item2 = num;               //primitive to non-primitive conversion ,to do this job we use constructor method /or overloaded assignment operator
+  item2.showdata();
+  
+  item1 = item2;      //here copy constructor works
+  item1.showdata();
+  return 0;
+}
+
+
