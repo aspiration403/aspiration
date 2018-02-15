@@ -1,0 +1,1 @@
+cmd_/home/raman/2017/Kernel_prog/raman.ko := ld -r -m elf_x86_64 -T /usr/src/kernels/3.6.11-4.fc16.x86_64/scripts/module-common.lds --build-id  -o /home/raman/2017/Kernel_prog/raman.ko /home/raman/2017/Kernel_prog/raman.o /home/raman/2017/Kernel_prog/raman.mod.o

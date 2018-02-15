@@ -1,0 +1,4 @@
+struct ABC
+{
+  int add;
+};

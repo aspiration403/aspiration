@@ -1,0 +1,12 @@
+problem.cpp: In constructor ‘transmitter::transmitter(const char*)’:
+problem.cpp:91:36: error: expected primary-expression before ‘<’ token
+problem.cpp: In constructor ‘receiver::receiver(const char*)’:
+problem.cpp:97:33: error: expected primary-expression before ‘<’ token
+problem.cpp: At global scope:
+problem.cpp:115:24: error: no ‘void transmitter::read()’ member function declared in class ‘transmitter’
+problem.cpp:130:22: error: no ‘void receiver::write()’ member function declared in class ‘receiver’
+problem.cpp: In function ‘int main()’:
+problem.cpp:138:8: error: request for member ‘read’ is ambiguous
+problem.cpp:105:6: error: candidates are: virtual void storable::read()
+problem.cpp:125:6: error:                 virtual void receiver::read()
+problem.cpp:105:6: error:                 virtual void storable::read()
