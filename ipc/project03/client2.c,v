@@ -1,0 +1,12 @@
+head	;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+
+desc
+@creating client2.c
+copying client1.c to client2.c
+@

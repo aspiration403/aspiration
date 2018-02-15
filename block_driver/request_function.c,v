@@ -1,0 +1,53 @@
+head	1.1;
+access;
+symbols;
+locks
+	raman:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2015.12.26.05.17.37;	author raman;	state Exp;
+branches;
+next	;
+
+
+desc
+@request function is main function of block driver
+it continuosly check the request in queue
+if any request is present the it called transfer function which handle actual data io
+the parameter for transfer function is pointer to current request
+starting position of sector from where data write started
+third argument states about upto which position data to be write
+fourth argument states about data is read/write from block device it simply indicates direction
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#include"header.h"
+#include"declaration.h"
+void request_fun(struct request_queue *q)
+{
+	struct request *temp_req;
+	#ifdef DEBUG
+	printk(KERN_INFO "Inside %s \n",__func__);
+	#endif
+
+	while((temp_req = blk_fetch_request(q))!= NULL)
+	{
+
+		data_io(temp_req,blk_rq_pos(temp_req),blk_rq_sectors(temp_req),rq_data_dir(temp_req));
+		blk_end_request_cur(temp_req,0);
+	}
+
+
+
+	#ifdef DEBUG
+	printk(KERN_INFO "out from %s \n",__func__);
+	#endif
+}
+@

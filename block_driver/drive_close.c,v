@@ -1,0 +1,57 @@
+head	1.2;
+access;
+symbols;
+locks
+	root:1.2; strict;
+comment	@ * @;
+
+
+1.2
+date	2015.12.22.05.53.13;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.12.22.04.56.19;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#include"header.h"
+
+//  int (*release) (struct gendisk *, fmode_t)
+int sbull_close(struct gendisk * lgd, fmode_t file_mode)
+{
+	#ifdef DEBUG
+	printk(KERN_INFO "Inside %s\n",__func__);
+	#endif
+	
+
+
+	#ifdef DEBUG
+	printk(KERN_INFO "Exit form %s\n",__func__);
+	#endif
+	
+	return 0;
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+#include"declarations.h"
+@

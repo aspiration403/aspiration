@@ -1,0 +1,8 @@
+#!/bin/bash
+co -l header.h
+co -l structure.h
+co -l server.c
+co -l client1.c
+co -l client2.c
+co -l process1.c
+

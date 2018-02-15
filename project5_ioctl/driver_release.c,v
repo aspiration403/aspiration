@@ -1,0 +1,48 @@
+head	1.2;
+access;
+symbols;
+locks
+	root:1.1
+	root:1.2; strict;
+comment	@ * @;
+
+
+1.2
+date	2011.06.21.10.26.20;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.06.21.07.31.01;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@included close functionality call
+to release the driver
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a0 7
+#include "header.h"
+#include "myDriver.h"
+int extern driver_release(struct inode *p,struct file * fp) 
+{
+	printk(KERN_INFO "in %s File released successfully",__func__);
+	return 0;
+}
+@

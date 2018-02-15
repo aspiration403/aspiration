@@ -1,0 +1,55 @@
+head	1.2;
+access;
+symbols;
+locks
+	root:1.2; strict;
+comment	@ * @;
+
+
+1.2
+date	2015.12.22.05.53.18;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.12.22.04.56.23;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@define only prototype for drive open routine
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@//int (*open) (struct block_device *, fmode_t);
+#include"header.h"
+int sbull_open(struct block_device *drive, fmode_t file_mode)
+{
+	#ifdef DEBUG
+	printk(KERN_INFO "Inside %s\n",__func__);
+	#endif
+	
+
+
+	#ifdef DEBUG
+	printk(KERN_INFO "Exit form %s\n",__func__);
+	#endif
+	
+	return 0;
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+@

@@ -1,0 +1,56 @@
+#! /bin/bash
+
+echo "Do you want to checkin"
+read choice
+if [ $choice = 'y' ]
+then
+	for file in  *.c
+	do
+		ci $file
+		co -l $file
+	done
+fi
+
+	
+
+
+
+if ( test -f /proc/modules/raman )
+then
+	echo "raman module exists so removing"
+	read
+	rmmod raman
+fi
+
+echo "Clearing the var/log/messages buffer"
+dmesg -c
+
+if ( make )
+then
+	echo "Do you want to insert Driver(y/n)"
+	read ans
+	if [ $ans = 'y' ]
+	then
+		insmod ./modules/raman.ko 
+		read
+		echo "My module in module list"
+		cat /proc/modules | grep raman
+		read
+		dmesg
+		read
+		cat /proc/partitions | grep R_BLK_DISK
+	fi
+	
+	
+else
+	echo " Compilation Error"			 	
+	exit 0	
+		
+
+fi
+
+	rmmod raman
+	dmesg
+	read
+	rm -rf *.o
+	make clean	

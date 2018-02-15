@@ -1,0 +1,43 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2015.11.04.05.16.57;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@in writer we copy data from user
+and put it inside quantum
+then i used outb to send data on parallel port
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#include"header.h"
+#include"declaration.h"
+//  ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+ssize_t p_write(struct file *fp,const char __user *ubuf,size_t size,loff_t *offset)
+{
+	unsigned int i=0;
+	struct mydev *pldev;
+	
+	pldev = fp->private_data;
+	for(i=0;i<8;i++)
+	{
+		copy_from_user(&pldev->quantum[i],ubuf,1);
+		outb(pldev->quantum[i],first_port);
+	}
+	return 0;
+}
+@

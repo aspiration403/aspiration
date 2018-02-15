@@ -1,0 +1,57 @@
+head	1.2;
+access;
+symbols;
+locks
+	root:1.2; strict;
+comment	@ * @;
+
+
+1.2
+date	2015.11.03.06.38.17;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.11.03.06.33.40;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@detaching the driver from kernel
+@
+
+
+1.2
+log
+@now unregistering our device from device table
+unregister_alloc_chrdev_region(dev_t ,no. of device)
+@
+text
+@#include"header.h"
+#include"declaration.h"
+//extern void unregister_chrdev_region(dev_t, unsigned nod);
+static void __exit out(void)
+{
+	printk(KERN_INFO "Bye.. Bye..  parallel port driver\n");
+	unregister_chrdev_region(pdevice,1);	
+}
+module_exit(out);
+
+
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 2
+a3 1
+
+d7 1
+a7 1
+	
+@

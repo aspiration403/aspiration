@@ -1,0 +1,1 @@
+cmd_/home/raman/raman.o := ld -m elf_x86_64   -r -o /home/raman/raman.o /home/raman/init.o /home/raman/exit_module.o /home/raman/driver_open.o /home/raman/driver_close.o /home/raman/driver_write.o /home/raman/driver_read.o 

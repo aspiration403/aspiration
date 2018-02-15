@@ -1,0 +1,99 @@
+head	1.4;
+access;
+symbols;
+locks
+	root:1.4; strict;
+comment	@ * @;
+
+
+1.4
+date	2015.04.25.07.19.53;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.04.25.07.14.33;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.04.25.07.10.46;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.04.21.16.30.52;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@created main function
+using header file header.h
+@
+
+
+1.4
+log
+@correcting fd
+@
+text
+@#include"header.h"
+int main(int argc,char *argv[])
+{
+	int rfd,wfd,result,nwrite;
+	struct data a;
+	if(argc<3)
+	{
+		perror(" pipe error in process1");
+		goto out;
+	}
+	rfd=atoi(argv[1]);
+	wfd=atoi(argv[2]);
+	read(rfd,&a,sizeof(a));
+	printf(" in %s function",__FILE__);
+	printf(" Data read :\n %d \n %d \n %c",a.oprnd1,a.oprnd2,a.oprtr);
+	result=a.oprnd1 + a.oprnd2;
+	nwrite=write(wfd,&result,4); 	
+	printf("no. of bytes written :%d and data %d \n",nwrite,result); 
+	return 0;
+	out:
+		return -1;
+}
+@
+
+
+1.3
+log
+@debugging error
+@
+text
+@d11 2
+a12 2
+	rfd=atoi(argv[0]);
+	wfd=atoi(argv[1]);
+@
+
+
+1.2
+log
+@reading data from pipe
+and process operation and send result back to server
+@
+text
+@d4 1
+a4 1
+	int rfd,wfd,result;
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 15
+a18 1
+		
+d20 2
+@

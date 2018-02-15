@@ -1,0 +1,85 @@
+#! /bin/bash
+ci header.h
+ci init.c
+ci exit_module.c
+ci file_operations.h
+ci myDriver.h
+ci app.c
+ci driver_release.c
+ci driver_open.c
+ci driver_write.c
+ci trim_scull.c
+ci driver_lseek.c
+
+co -l trim_scull.c
+co -l header.h
+co -l init.c
+co -l exit_module.c
+co -l file_operations.h
+co -l myDriver.h
+co -l driver_release.c
+co -l app.c
+co -l driver_open.c
+co -l driver_write.c
+co -l driver_lseek.c
+
+rm -rf tarzan
+if ( make ) 
+then
+	echo "Would you like to insert module (i) or exit(e)"
+	read choice
+	if [ $choice = i ]
+	then
+		echo "enter value of NOD:"
+		read val
+		read
+		insmod ./modules/raman.ko nod=$val
+		lsmod	
+		read	
+		dmesg -c
+		read	
+		cat /proc/devices
+		echo	"Enter Major No. :"
+		read major
+		read
+		mknod tarzan c $major 0
+		ls -l
+		read 
+		echo " going to run app for open "
+		read
+	#	if [ gcc -o app app.c]
+	#	then
+		make writer_app 
+		echo "Writer compiled successfully"
+		echo "now going to run writer application"
+		read
+		./writer_app tarzan
+	#	
+		make reader_app 
+		echo "reader compiled successfully"
+		echo "now going to run reader application"
+		read
+		./reader_app tarzan
+		echo "Hold and run another reader App"
+		read
+	
+	#	else
+#			echo "Writer doesn't compiled"
+#		fi
+
+		read
+		echo " going to delete and unlink "
+
+		rmmod raman
+		unlink tarzan
+		dmesg -c
+		read
+		cat /proc/devices
+	fi
+
+fi
+
+
+rm -rf *.o modules
+
+

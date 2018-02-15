@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks
+	raman:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2015.12.26.05.12.44;	author raman;	state Exp;
+branches;
+next	;
+
+
+desc
+@it contain only prototype of data io from block device to user space application
+to or from
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#include"header.h"
+void data_io(struct request *q,unsigned int offset, unsigned int num_sector,unsigned RW_dr)
+{
+	#ifdef DEBUG
+	printk(KERN_INFO "Inside %s \n",__func__);
+	#endif
+
+	#ifdef DEBUG
+	printk(KERN_INFO "out from %s \n",__func__);
+	#endif
+}
+@

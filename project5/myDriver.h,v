@@ -1,0 +1,104 @@
+head	1.5;
+access;
+symbols;
+locks
+	root:1.4
+	root:1.5; strict;
+comment	@ * @;
+
+
+1.5
+date	2011.06.21.10.26.16;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2011.06.21.09.01.38;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.06.21.07.30.12;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.06.20.13.30.12;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.06.20.12.40.49;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@declare owndriver prototype
+until now given maximum device siae and used cdev
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@@
+
+
+1.4
+log
+@given the container type
+@
+text
+@a0 17
+#include<linux/cdev.h>
+
+ struct dev
+{
+	 int deviceSize;
+	 struct cdev kern_cdev;
+};
+extern struct dev *Dev;
+//container_of(ptr, type, member)
+
+
+
+extern int  driver_open(struct inode *,struct file *);
+//int (*release) (struct inode *, struct file *);
+extern int driver_release(struct inode *,struct file *);
+
+
+@
+
+
+1.3
+log
+@declare the prototype of release call.
+@
+text
+@d9 3
+@
+
+
+1.2
+log
+@includedopen prototype
+@
+text
+@d11 2
+a12 2
+
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+d9 6
+@

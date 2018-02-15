@@ -1,0 +1,2 @@
+/home/raman/2015/project5_ioctl/raman.ko
+/home/raman/2015/project5_ioctl/init.o /home/raman/2015/project5_ioctl/exit_module.o /home/raman/2015/project5_ioctl/driver_open.o /home/raman/2015/project5_ioctl/driver_release.o /home/raman/2015/project5_ioctl/driver_write.o /home/raman/2015/project5_ioctl/driver_read.o /home/raman/2015/project5_ioctl/trim_scull.o /home/raman/2015/project5_ioctl/driver_lseek.o /home/raman/2015/project5_ioctl/driver_ioctl.o

@@ -1,0 +1,2 @@
+/home/2015/project5_proc/raman.ko
+/home/2015/project5_proc/init.o /home/2015/project5_proc/exit_module.o /home/2015/project5_proc/driver_open.o /home/2015/project5_proc/driver_release.o /home/2015/project5_proc/driver_write.o /home/2015/project5_proc/driver_read.o /home/2015/project5_proc/trim_scull.o /home/2015/project5_proc/driver_lseek.o /home/2015/project5_proc/driver_ioctl.o /home/2015/project5_proc/driver_proc.o

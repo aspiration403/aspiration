@@ -1,0 +1,233 @@
+head	1.7;
+access;
+symbols;
+locks
+	root:1.7; strict;
+comment	@ * @;
+
+
+1.7
+date	2015.12.19.07.23.41;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.12.19.07.00.24;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.12.19.06.50.44;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.12.19.06.34.22;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.12.17.11.38.52;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.12.17.11.26.41;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.12.17.10.10.39;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@register block deriver
+and got major number
+took memory for our sbull
+allocate memory fordevice size
+means total memory available which we use
+then register the request function using block_init_queue
+@
+
+
+1.7
+log
+@setting the capacity of gendisk
+and then added this drive
+@
+text
+@#include"header.h"
+#include "declaration.h"
+#include "block_dev_operations.h"
+int major;
+int minor; 
+struct SBULL *bdev;
+static int __init entry(void)
+{
+	int device_size;
+	
+	 major = MAJOR_NO;
+	 minor = MINOR_NO; 
+	#ifdef DEBUG
+	printk(KERN_INFO "Inside %s \n",__FILE__);
+	#endif
+	major = register_blkdev(major,DRIVER);
+	#ifdef DEBUG
+	printk(KERN_INFO "MAJOR NO.:%d \n ",major);
+	#endif
+	
+	bdev = kmalloc(sizeof(struct SBULL),GFP_KERNEL);	
+	if(!bdev)
+	{
+	#ifdef DEBUG
+	printk(KERN_ERR "Memory for Scull Not found !!!\n");
+	#endif
+	unregister_blkdev(major,DRIVER);
+	goto OUT;	
+	}
+
+	bdev ->sector_size = SECTOR_SIZE;
+	bdev ->num_sectors = NUM_SECTORS;
+	device_size = (bdev->sector_size)*(bdev->num_sectors);
+	
+	#ifdef DEBUG
+	printk(KERN_INFO "DEVICE SIZE =:%d \n ",device_size);
+	#endif
+		
+	bdev ->data = vmalloc(sizeof(device_size)); //data array size	
+	if(!bdev ->data)
+	{
+	#ifdef DEBUG
+	printk(KERN_ERR "Memory not allocated for data\n");
+	#endif
+	goto OUT;
+	}
+
+	spin_lock_init(&bdev->lock);
+	bdev->queue = blk_init_queue(request_fun,&bdev->lock);
+
+	//extern void blk_queue_logical_block_size(struct request_queue *, unsigned short);
+	//seccond argument is sector size
+	blk_queue_logical_block_size(bdev ->queue, bdev->sector_size );
+	bdev->gd = alloc_disk(NUM_MINORS);
+	if(!bdev->gd)
+	{
+	#ifdef DEBUG
+	printk(KERN_ERR "Memory not allocated for gendisk\n");
+	#endif
+	goto OUT;
+	}
+	else
+	{
+		#ifdef DEBUG
+		printk(KERN_INFO "Initializing parameters for gendisk\n");
+		#endif
+		
+		bdev ->gd->major = major;
+		bdev ->gd->first_minor = 0;
+		bdev ->gd->minors = NUM_MINORS;
+		sprintf(bdev->gd->disk_name,"%s",DISK_NAME);
+		bdev ->gd->fops = &bop;
+		bdev->gd->queue = bdev ->queue;
+		set_capacity(bdev->gd,bdev->num_sectors );
+		
+		add_disk(bdev->gd);
+		
+	}
+	
+	#ifdef DEBUG
+	printk(KERN_INFO "Exit from %s \n",__FILE__);
+	#endif
+	return 0;
+OUT:
+	return -1;
+}
+module_init(entry);
+@
+
+
+1.6
+log
+@change the name of scull, from BDEV to SBULL
+@
+text
+@d74 3
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d6 1
+a6 1
+struct BDEV *bdev;
+d21 1
+a21 1
+	bdev = kmalloc(sizeof(struct BDEV),GFP_KERNEL);	
+@
+
+
+1.4
+log
+@alloc_gendisk to allocate struct gendisk
+@
+text
+@d54 1
+a54 1
+	bdev->gd = (struct gendisk *)alloc_disk(NUM_MINORS);
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d54 1
+a54 1
+	bdev->gd = (struct gendisk *)vmalloc(sizeof(struct gendisk));
+d70 1
+a70 1
+		bdev ->gd->minors = 1;
+@
+
+
+1.2
+log
+@mapping the logical block size with our sector_size
+allocate space for gendisk
+set the parameters of gendisk major,minor,number_of_minor,disk_name
+file operation
+given the pointer of struct request queue to the gendisk request queue parameter
+for both inside and outside data operation
+@
+text
+@d62 14
+a76 8
+	bdev ->gd->major = major;
+	bdev ->gd->first_minor = 0;
+	bdev ->gd->minors = 1;
+	sprintf(bdev->gd->disk_name,"%s",DISK_NAME);
+	bdev ->gd->fops = &bop;
+	bdev->gd->queue = bdev ->queue;
+	
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 1
+d32 2
+a33 2
+	bdev ->users = PARTITIONS;
+	device_size = (bdev->sector_size)*(bdev->users);
+d50 20
+@

@@ -1,0 +1,358 @@
+head	1.16;
+access;
+symbols;
+locks
+	root:1.16; strict;
+comment	@ * @;
+
+
+1.16
+date	2015.07.05.12.49.08;	author root;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2015.07.05.12.44.18;	author root;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2015.07.02.09.34.12;	author root;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2015.06.28.09.46.55;	author root;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2015.06.28.09.11.32;	author root;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2015.06.27.09.17.32;	author root;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2015.06.14.13.23.31;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2015.06.14.08.25.08;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2015.06.14.08.23.07;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2015.06.14.08.19.02;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.06.14.08.11.27;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.06.14.07.23.31;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.06.14.07.06.37;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.06.14.06.31.48;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.06.14.05.59.04;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.06.13.12.18.23;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@make entry in module
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@#include"header.h"
+#include"myDriver.h"
+#include"file_operations.h"
+//extern int alloc_chrdev_region(dev_t *, unsigned, unsigned, const char *);
+// int cdev_add(struct cdev *, dev_t, unsigned);//unsigned is num of devices
+//void cdev_init(struct cdev *, const struct file_operations *);
+int nod;
+module_param(nod,int,S_IRUGO);
+
+
+struct dev *Dev;  
+dev_t devNo,dev_nod;
+int major ,minor=0;
+int quantum_size=QUANTUM_SIZE;
+int qset_size = QSET_SIZE;
+static  int __init entry(void)
+	{
+		int lv=0;
+		printk(KERN_ALERT "Hello inserted into kernel module\n");
+		 alloc_chrdev_region(&devNo, minor, nod, "Character_driver");
+		major=MAJOR(devNo);
+		Dev=(struct dev *)kmalloc((sizeof(struct dev )*nod),GFP_KERNEL);
+		memset(Dev,'\0',sizeof(struct dev)*nod);
+		for(lv=0;lv<nod;lv++)
+		{
+		//	Dev[lv]=(struct dev *)kmalloc((sizeof(struct dev )*nod),GFP_KERNEL);
+			
+			cdev_init(&Dev[lv].kern_cdev,&fileop);
+			dev_nod=MKDEV(major,lv);
+			minor=MINOR(dev_nod);
+			major=MAJOR(dev_nod);
+			Dev[lv].quantum_size=QUANTUM_SIZE;
+			Dev[lv].qset_size=QSET_SIZE;
+			Dev[lv].data_size=DATA_SIZE;
+			Dev[lv].num_quantum=NUM_QUANTUM;
+			Dev[lv].num_qset=NUM_QSETARR;
+			sema_init(&Dev[lv].sem,1);			
+			printk(KERN_INFO "Major No. =%d",major);
+			printk(KERN_INFO "Minor No. =%d",minor);
+			cdev_add(&Dev[lv].kern_cdev,devNo,1);
+				
+		}
+		return 0;
+	}
+module_init(entry);
+@
+
+
+1.15
+log
+@introduce semaphore for sync
+only initialize using sema_init per scull
+@
+text
+@d37 1
+a37 1
+			sema_init(Dev[lv].sem,1);			
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d37 1
+a37 1
+			
+@
+
+
+1.13
+log
+@initialize num of quantum array
+@
+text
+@d40 1
+a40 1
+			cdev_add(&Dev[lv].kern_cdev,devNo,nod);
+@
+
+
+1.12
+log
+@initialize the quantum data for each device
+@
+text
+@a15 1
+int data_size = DATA_SIZE;
+d35 3
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d15 2
+a16 1
+int qset_size=QSET_SIZE;
+d23 2
+d27 3
+d33 3
+d38 1
+a40 4
+		Dev=(struct dev *)kmalloc((sizeof(struct dev)*nod),GFP_KERNEL);
+		memset(Dev,'\0',sizeof(struct dev)*nod);
+		cdev_init(&Dev->kern_cdev,&fileop);
+		cdev_add(&Dev->kern_cdev,devNo,nod);
+@
+
+
+1.10
+log
+@now adding cdev entry in device table
+this cdev is member of our scull dev
+@
+text
+@a0 1
+
+d3 1
+d6 3
+a8 1
+
+d12 1
+a12 1
+dev_t devNo;
+d14 2
+d18 1
+d20 1
+a20 1
+		 alloc_chrdev_region(&devNo, minor, 1, "Character_driver");
+d22 13
+a34 6
+		minor=MINOR(devNo);
+		printk(KERN_INFO "Major No. =%d",major);
+		printk(KERN_INFO "Minor No. =%d",minor);
+		Dev=(struct dev *)kmalloc((sizeof(struct dev)),GFP_KERNEL);
+		memset(Dev,'\0',sizeof(struct dev));
+		cdev_add(&Dev->cdev,devNo,1);
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d5 3
+d22 1
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d6 1
+a6 1
+//struct dev *Dev;  
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d6 1
+a6 1
+struct dev *Dev;  
+@
+
+
+1.6
+log
+@kmalloc for own defined device driver prototype
+the memset
+used prototype myCharDriver.h
+@
+text
+@d18 1
+a18 1
+		memset(Dev,"\0",sizeof(struct dev));
+@
+
+
+1.5
+log
+@defined major and minor no.
+@
+text
+@d1 1
+d3 1
+d6 2
+a7 2
+
+dev_t cdev;
+d12 3
+a14 3
+		 alloc_chrdev_region(&cdev, minor, 1, "Character_driver");
+		major=MAJOR(cdev);
+		minor=MINOR(cdev);
+d17 3
+a19 1
+		 return 0;
+@
+
+
+1.4
+log
+@using macro MAJOR and MINOR
+@
+text
+@d6 1
+d10 1
+a10 1
+		 alloc_chrdev_region(&cdev, 0, 1, "Character_driver");
+@
+
+
+1.3
+log
+@now register my character driver in device table
+using alloc_chardev_region function
+@
+text
+@d10 5
+a14 1
+		return 0;
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+//dev_t cdev;
+d9 1
+a9 1
+//		 alloc_chrdev_region(&cdev, unsigned, unsigned, const char *);
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 5
+a6 1
+static int __init entry(void)
+d9 1
+@

@@ -1,0 +1,37 @@
+# !bin/bash
+
+ci init.c
+ci driver_write.c
+ci driver_release.c
+ci exit_module.c
+ci driver_open.c
+ci declaration.h
+
+co -l init.c
+co -l driver_write.c
+co -l driver_release.c
+co -l exit_module.c
+co -l driver_open.c
+co -l declaration.h
+
+if ( make )
+then
+	insmod	./modules/raman.ko
+	dmesg 
+	echo	"Enter Major No. :"
+	read	major
+	unlink	node
+	mknod node c $major 0
+	echo "Hold and run application "
+	read
+	dmesg
+	rmmod ./modules/raman.ko 
+	dmesg
+fi
+
+
+
+	
+
+
+

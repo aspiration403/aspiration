@@ -1,0 +1,1 @@
+cmd_/home/2015/project5_giffies/raman.ko := ld -r -m elf_x86_64 -T /usr/src/kernels/3.6.11-4.fc16.x86_64/scripts/module-common.lds --build-id  -o /home/2015/project5_giffies/raman.ko /home/2015/project5_giffies/raman.o /home/2015/project5_giffies/raman.mod.o

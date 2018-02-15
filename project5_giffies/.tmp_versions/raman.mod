@@ -1,0 +1,2 @@
+/home/2015/project5_giffies/raman.ko
+/home/2015/project5_giffies/init.o /home/2015/project5_giffies/exit_module.o /home/2015/project5_giffies/driver_open.o /home/2015/project5_giffies/driver_release.o /home/2015/project5_giffies/driver_write.o /home/2015/project5_giffies/driver_read.o /home/2015/project5_giffies/trim_scull.o /home/2015/project5_giffies/driver_lseek.o /home/2015/project5_giffies/driver_ioctl.o /home/2015/project5_giffies/driver_proc.o

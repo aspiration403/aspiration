@@ -1,0 +1,4 @@
+#! /bin/bash
+
+find  -name  *.txt  -type f  
+##for x in 'find . -name *.txt -type f -print' 

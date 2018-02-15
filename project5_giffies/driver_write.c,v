@@ -1,0 +1,749 @@
+head	1.26;
+access;
+symbols;
+locks
+	root:1.26; strict;
+comment	@ * @;
+
+
+1.26
+date	2015.07.12.11.43.39;	author root;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2015.07.12.07.52.26;	author root;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2015.07.12.07.14.01;	author root;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2015.07.12.07.06.38;	author root;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2015.07.05.17.27.39;	author root;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2015.07.05.16.00.14;	author root;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2015.07.05.15.53.27;	author root;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2015.07.05.13.49.11;	author root;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2015.07.05.13.36.21;	author root;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2015.07.05.13.23.06;	author root;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2015.07.05.12.45.22;	author root;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2015.07.05.12.41.26;	author root;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2015.06.28.09.47.27;	author root;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2015.06.28.09.11.52;	author root;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2015.06.28.07.16.05;	author root;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2015.06.27.13.46.48;	author root;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2015.06.27.13.41.51;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2015.06.27.13.28.31;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2015.06.27.13.15.26;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2015.06.27.13.10.57;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.06.27.10.53.44;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.06.27.10.30.38;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.06.27.09.21.38;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.06.27.09.17.40;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.06.21.12.07.17;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.06.21.11.44.01;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@function for write call
+@
+
+
+1.26
+log
+@here update the file position every time
+@
+text
+@#include "header.h"
+#include "myDriver.h"
+// ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+
+int cal_nqset(int size)
+{
+	int nqset;
+	nqset=size/(qset_size);
+	if(size%(qset_size)>0)
+		nqset++;
+	return nqset;
+}
+int cal_nsqset(int size)
+{
+	int nsqset;
+	nsqset=size/(quantum_size*qset_size);
+	if(size%(quantum_size * qset_size)>0)
+		nsqset++;
+	return nsqset;
+}
+
+
+ssize_t driver_writer(struct file *fp, const char  __user *ubuf, size_t size, loff_t * offset) 
+{
+
+	struct dev *f_ldev;
+	struct Qset* sqset=NULL;
+	int nsqset,i,q=0,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0;
+	printk(KERN_INFO "Entry In function ------>%s",__func__);
+	printk(KERN_INFO "Data in ubuff is %s \n and size is %d \n",ubuf,size);
+	nsqset=cal_nsqset(size);
+	printk(KERN_INFO "Number of Struct Qset =%d\n",nsqset);
+	nqset=cal_nqset(size);
+	
+	printk(KERN_INFO "Number of  Qset array =%d \n",nqset);
+	f_ldev=fp->private_data;
+
+	if(down_interruptible(&f_ldev->sem))
+		return ERESTARTSYS;
+
+	f_ldev->qset_node=create_sqset(nsqset);
+	sqset = f_ldev-> qset_node;
+	create_qsetarr(nsqset,sqset);
+	create_quantum(nqset,sqset);
+	if(size < bytes_to_write)
+	{
+		bytes_to_write = size;
+	}
+	remaining_bytes=size;
+	for(i=0;i<nqset;i++)
+	{	
+		ret=copy_from_user(sqset->data[q],ubuf+loc,bytes_to_write);
+		remaining_bytes -= (bytes_to_write + ret);
+		printk(KERN_INFO "No. of byts written :%d \t and \n Data is :%s\n",bytes_to_write,sqset->data[q]);
+
+		bytes_written +=(bytes_to_write - ret);
+		loc = bytes_written;
+		if(remaining_bytes < bytes_to_write)
+			bytes_to_write=remaining_bytes;
+		
+
+		if((q==QSET_SIZE-1 && i < nqset)&& (sqset->next))
+		{
+				sqset = sqset->next;
+				q=0;
+		}	
+		else
+			q++;
+		fp ->f_pos = bytes_written;
+		f_ldev->cur_file_pos = bytes_written;
+	}
+	
+	
+	
+		
+	
+	up(&f_ldev->sem);
+	f_ldev->data_size = bytes_written;
+	f_ldev->num_qset = nqset; 
+		
+	fp ->f_pos = bytes_written;
+	
+	printk(KERN_INFO "updated file position %d\n",fp->f_pos);
+	printk(KERN_INFO "Exit from  function ------>%s\n",__func__);
+	return bytes_written;
+}
+struct Qset* create_sqset(int nsqset)
+{
+	struct Qset *fsqset,*sqset;
+	int i;
+	fsqset = NULL;
+	sqset = NULL;
+	for(i=0;i<nsqset;i++)
+	{
+		if(i==0)
+		{
+			fsqset=sqset=(struct Qset *)kmalloc(sizeof(struct Qset ),GFP_KERNEL);	
+			
+			if(fsqset)
+			{
+				printk(KERN_INFO "Memory Alocated for  Sqset");
+				fsqset->data=NULL;
+				fsqset->next=NULL;
+			}
+			else
+				printk(KERN_ERR "Memory not allocated for strut qset");
+		}
+		else
+		{
+	
+			sqset->next=(struct Qset *)kmalloc(sizeof(struct Qset ),GFP_KERNEL);	
+			
+			if(sqset->next)
+			{
+				printk(KERN_INFO "Memory Alocated for  Sqset");
+				sqset=sqset->next;
+				
+				sqset->data=NULL;
+				sqset->next=NULL;
+			}
+
+			else
+				printk(KERN_ERR "Memory not allocated for strut qset");
+	
+		}
+	}
+	return fsqset;
+}
+int create_qsetarr(int nsqset,struct Qset *ldev )
+{
+	struct Qset *localdev;
+	int i=0;
+	localdev=ldev;
+	for(i=0; i< nsqset;i++)
+	{
+		if(localdev)
+		{
+			localdev->data=kmalloc((sizeof(struct qset * )*QSET_SIZE),GFP_KERNEL);	
+			if(NULL!=localdev->data)
+			{
+				printk(KERN_INFO "Memory Alocated for  qset Array");
+				if(localdev->next)
+					localdev=localdev->next;
+			}	
+			else
+				printk(KERN_ERR "Memory not allocated for  qset");
+		}
+		else
+		{
+			
+			printk(KERN_ERR "Memory not allocated for  qset");
+			goto OUT;
+		}	
+		
+	
+	}
+OUT:
+	return -1;
+return 0;
+}
+
+
+int create_quantum(int quant,struct Qset *ldev)
+{
+	int i=0,q=0;
+	struct Qset *sqset;
+	sqset=ldev;
+	for(i=0;i<quant;i++)
+	{
+		if(sqset)
+		{
+			sqset->data[q]=(struct qset *)kmalloc((sizeof(struct qset )),GFP_KERNEL);	
+			if(sqset->data[q])
+			{
+				printk(KERN_INFO "Memory Alocated for  quantum \n");
+			}	
+			else
+				printk(KERN_ERR "Memory not allocated for  qset");
+		}
+		if((q==QSET_SIZE-1 && i < quant)&& (sqset->next))
+		{
+				sqset = sqset->next;
+				q=0;
+		}	
+		else
+			q++;
+	}
+	return 0;
+}
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@d69 2
+a70 1
+	//	fp ->f_pos = bytes_written;
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@d69 1
+a69 1
+		fp ->f_pos = bytes_written;
+d81 3
+a83 1
+	printk(KERN_INFO "Exit from  function ------>%s",__func__);
+@
+
+
+1.23
+log
+@updating the file position
+@
+text
+@d69 1
+a69 1
+		fp ->f_pos = loc;
+d80 1
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@d69 1
+a69 1
+
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d78 2
+a79 1
+	f_ldev->num_qset = nqset; 	
+@
+
+
+1.20
+log
+@removing unnecessary comment for semaphore
+@
+text
+@d28 1
+a28 1
+	int nsqset,i,q=0,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0,a,b;
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d72 2
+a73 4
+	for(a=0;a<10000;a++)
+	{
+		for(b=0;b>10000;b--);
+	}
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d28 1
+a28 1
+	int nsqset,i,q=0,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0;
+d71 7
+a77 1
+	sleep(10);
+@
+
+
+1.17
+log
+@now try to check semaphore
+work by stoping in write loop
+@
+text
+@d71 1
+a71 1
+	while(1);	
+@
+
+
+1.16
+log
+@in driver write at the start of shared portion used entry section check
+down_interruptible
+and at exit up
+means increment the semaphore variable
+@
+text
+@d71 1
+a71 1
+	
+@
+
+
+1.15
+log
+@included semaphore for sync
+in writer block
+@
+text
+@d38 1
+a38 1
+	if(down_interruptible(&f_ldev->sem)
+@
+
+
+1.14
+log
+@set the no. of qset to global variable
+@
+text
+@d37 4
+a40 1
+	
+d71 2
+@
+
+
+1.13
+log
+@after writing set the data written to global dev data data_size
+@
+text
+@d68 2
+a69 2
+	f_ldev->data_size=bytes_written;
+	
+@
+
+
+1.12
+log
+@now created quantum as well as making qset array
+for n number of struct qset
+@
+text
+@d68 2
+a69 1
+
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d27 2
+a28 1
+	int nsqset,i,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0;
+d37 1
+d39 3
+a41 2
+	create_qsetarr(nqset,f_ldev->qset_node);
+	
+d49 1
+a49 1
+		ret=copy_from_user(f_ldev->qset_node->data[i],ubuf+loc,bytes_to_write);
+d51 2
+a52 2
+		printk(KERN_INFO "No. of byts written :%d \t and \n Data is :%s\n",bytes_to_write,f_ldev->qset_node->data[i]);
+		
+d58 9
+a66 1
+		
+d68 1
+a68 1
+	
+d74 1
+a74 1
+	struct Qset **ldev;
+d76 2
+a77 1
+	ldev=(struct Qset ** )kmalloc(sizeof(struct Qset *),GFP_KERNEL);
+d80 29
+a108 6
+		ldev[i]=(struct Qset *)kmalloc(sizeof(struct Qset ),GFP_KERNEL);	
+	
+	if(ldev[i])
+		printk(KERN_INFO "Memory Alocated for num of Sqset");
+	else
+		printk(KERN_ERR "Memory not allocated for strut qset");
+d110 1
+d112 1
+a112 2
+
+	return ldev[0];
+d114 1
+a114 1
+int create_qsetarr(int nqset,struct Qset *ldev )
+d119 1
+a119 1
+	for(i=0; i< nqset;i++)
+d121 18
+a138 2
+
+		localdev->data[i]=(struct qset *)kmalloc(sizeof(struct qset ),GFP_KERNEL);	
+a140 5
+	if(NULL!=localdev->data[i])
+		printk(KERN_INFO "Memory Alocated for num of qset");
+	else
+		printk(KERN_ERR "Memory not allocated for  qset");
+	
+d142 2
+d146 29
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d51 3
+a53 3
+		loc += bytes_written;
+		//if(remaining_bytes < bytes_to_write)
+		//	bytes_to_write=remaining_bytes;
+@
+
+
+1.9
+log
+@remove concept of data write char by char
+@
+text
+@d52 2
+a53 2
+		if(remaining_bytes < bytes_to_write)
+			bytes_to_write=remaining_bytes;
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d27 1
+a27 1
+	int nsqset,i,j,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0;
+d46 2
+a47 7
+		for(j=0;j<bytes_to_write;j++)
+		{
+			ret=copy_from_user(f_ldev->qset_node->data[i],(ubuf+loc)+j,1);
+			if(ret)
+				bytes_to_write +=ret;
+		}
+		remaining_bytes -= bytes_to_write;
+d49 3
+a51 2
+		loc=loc+bytes_to_write;
+		bytes_written +=bytes_to_write;
+@
+
+
+1.7
+log
+@now try to write character by char
+@
+text
+@d48 1
+a48 1
+			ret=copy_from_user(f_ldev->qset_node->data[i],ubuf+loc+j,1);
+@
+
+
+1.6
+log
+@returned number of bytes written to driver
+to application
+@
+text
+@d27 1
+a27 1
+	int nsqset,i,ret,nqset,loc=0,bytes_to_write=QUANTUM_SIZE,remaining_bytes,bytes_written=0;
+d45 10
+a54 5
+	{
+		ret=copy_from_user(f_ldev->qset_node->data[i],ubuf+loc,bytes_to_write);
+		remaining_bytes -= (bytes_to_write-ret);
+		printk(KERN_INFO "No. of byts written :%d \t and \n Data is :%s\n",bytes_to_write-ret,f_ldev->qset_node->data[i]);
+		loc=loc+bytes_to_write-ret;
+@
+
+
+1.5
+log
+@making loop for n number of quantum
+@
+text
+@d27 1
+a27 1
+	int nsqset,i,ret,nqset,loc=0;
+d38 6
+d46 9
+a54 4
+		ret=copy_from_user(f_ldev->qset_node->data[i],ubuf+loc,QUANTUM_SIZE);
+
+		printk(KERN_INFO "No. of byts written :%d \t and \n Data is :%s\n",size-ret,f_ldev->qset_node->data[i]);
+		loc=loc+QUANTUM_SIZE;
+d58 1
+a58 1
+	return 0;
+@
+
+
+1.4
+log
+@used end of line
+@
+text
+@d27 3
+a29 3
+	int nsqset,i,ret,nqset;
+	printk(KERN_INFO "inside  %s ",__func__);
+	printk(KERN_INFO "Data in ubuff is %s \n",ubuf);
+d40 1
+a40 1
+		ret=copy_from_user(f_ldev->qset_node->data[i],ubuf,QUANTUM_SIZE);
+d42 2
+a43 1
+		printk(KERN_INFO "No. of byts written :%d \t and \n Data is :%s\n",ret,f_ldev->qset_node->data[i]);
+d45 2
+a46 1
+	printk(KERN_INFO "end of %s",__func__);
+@
+
+
+1.3
+log
+@written data in buffer
+using copy from
+@
+text
+@d29 1
+a29 1
+	printk(KERN_INFO "Data in ubuff is %s",ubuf);
+d31 1
+a31 1
+	printk(KERN_INFO "Number of Struct Qset =%d",nsqset);
+d34 1
+a34 1
+	printk(KERN_INFO "Number of  Qset array =%d",nqset);
+d42 1
+a42 1
+		printk(KERN_INFO "No. of byts written :%d and Data is :%s",ret,f_ldev->qset_node->data[i]);
+@
+
+
+1.2
+log
+@making writer
+@
+text
+@d4 19
+d26 2
+a27 3
+	//int nwrite;
+	//struct dev *ldev;
+//	struct dev *ldev  = fp -> private_data;
+d29 4
+d34 7
+d42 2
+a43 1
+
+d47 37
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d9 1
+@

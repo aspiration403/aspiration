@@ -1,0 +1,192 @@
+head	1.10;
+access;
+symbols;
+locks
+	root:1.10; strict;
+comment	@ * @;
+
+
+1.10
+date	2015.06.28.09.46.49;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2015.06.28.09.11.10;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2015.06.27.09.17.06;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2015.06.14.08.25.05;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.06.14.08.22.14;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.06.14.08.08.05;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.06.14.07.06.08;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.06.14.06.30.36;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.06.14.05.58.57;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.06.13.12.18.23;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@included header file from linux directory
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@#ifndef __HEADER__
+#define __HEADER__
+
+	#include<linux/kernel.h>
+	#include<linux/module.h>
+	#include<linux/init.h>
+	#include<linux/fs.h> //for alloc_chardev_region
+	#include<linux/cdev.h>   //for cdev
+	#include<linux/slab.h>  //for kfree
+	#include<linux/moduleparam.h>
+	#include <asm/uaccess.h>
+
+
+	#define QUANTUM_SIZE 8
+	#define QSET_SIZE 8
+	#define DATA_SIZE 0
+	#define NUM_QUANTUM 0
+	#define NUM_QSETARR 0
+	extern dev_t devNo;
+	extern int nod,qset_size,quantum_size;	
+	extern int major,minor;	
+	MODULE_AUTHOR("Raman");
+	MODULE_DESCRIPTION("Started Character Driver Module");
+	MODULE_LICENSE("GPL");
+#endif
+@
+
+
+1.9
+log
+@define macro for data written
+@
+text
+@d17 2
+@
+
+
+1.8
+log
+@defined uaccess.h for copyfromfile
+@
+text
+@d16 1
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d10 6
+d17 1
+a17 1
+
+@
+
+
+1.6
+log
+@initialize Dev in header
+@
+text
+@d11 1
+a11 1
+	struct dev *Dev;
+@
+
+
+1.5
+log
+@include cdev header file
+change the variable name extern dev_t cdev to devNo
+nclude slab.h
+for kfree
+@
+text
+@d11 1
+@
+
+
+1.4
+log
+@declare to variable major no. and minor no.
+@
+text
+@d7 4
+a10 2
+	#include<linux/fs.h>
+	extern dev_t cdev;
+@
+
+
+1.3
+log
+@included fs.h header
+and declare extern dev_t cdev variable
+@
+text
+@d9 1
+a9 1
+	
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d7 3
+a9 1
+	//extern dev_t cdev;
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d7 1
+@

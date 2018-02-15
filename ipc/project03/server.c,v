@@ -1,0 +1,412 @@
+head	1.17;
+access;
+symbols;
+locks
+	root:1.17; strict;
+comment	@ * @;
+
+
+1.17
+date	2015.04.25.10.06.14;	author root;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2015.04.25.09.55.07;	author root;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2015.04.25.09.52.59;	author root;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2015.04.25.07.09.25;	author root;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2015.04.25.05.54.05;	author root;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2015.04.25.05.45.00;	author root;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2015.04.25.05.43.26;	author root;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2015.04.25.05.30.34;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2015.04.25.04.11.48;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2015.04.25.03.45.13;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2015.04.25.03.43.32;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.04.24.17.25.42;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.04.24.17.21.04;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.04.22.16.50.05;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.04.21.16.44.09;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.04.21.16.41.50;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.04.21.16.30.52;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@created main function
+using header.h
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@#include"header.h" 
+
+int main()
+{
+	int n,count,count1;
+	printf("in %s function \n",__FILE__);
+	//printf("How many client you want to serve :");
+	//scanf("%d",&count);
+	count1=count;
+	int pfd[2],cfd[2],retc,i,retp,ret,ret1,p1_res;
+	int fd[2*count];
+	struct data a;
+	char cfdw[4],cfdr[4],pfdw[4],pfdr[4],c[7];
+/*	for(i=1;i<=count;i++,count1--)
+	{
+		ret=pipe(fd);
+		fd[(2*count1)-1]=fd[1];
+		fd[(2*count1)-2]=fd[0];
+	} 
+	for(i=0;i<2*count;i++)
+	{
+		printf("--fd :%d\n",fd[i]);
+	}*/
+	retc=pipe(cfd);
+	
+	if(retc!=0)
+	{
+		perror("client pipe error :NOT CREATED");
+		goto out;
+	}
+	sprintf(cfdw,"%d",cfd[1]);
+	sprintf(cfdr,"%d",cfd[0]);	
+	sprintf(c,"./client%d",1);
+	retp=pipe(pfd);
+	if(retc!=0)
+	{
+		perror("Process pipe error :NOT CREATED");
+		goto out;
+	}	
+	sprintf(pfdw,"%d",pfd[1]);	
+	sprintf(pfdr,"%d",pfd[0]);
+	ret=fork();
+	if(!ret)
+	{
+		
+		execl(c,c,cfdr,cfdw,NULL);
+	}
+	else
+	{
+		read(cfd[0],&a,sizeof(a));
+		printf("data in pipe is :%d \n %d \n %c \n",a.oprnd1,a.oprnd2,a.oprtr);
+	//	printf(" in parent process with pid %d\n",getpid());
+		ret1=fork();
+		if(!ret1)
+		{
+			
+			execl("./process1","process1",pfdr,pfdw,NULL);
+		}
+		else
+		{
+			write(pfd[1],&a,sizeof(a));
+			sleep(1);
+			read(pfd[0],&p1_res,4);
+			printf("read data at server from process %d\n",p1_res);
+			write(cfd[1],&p1_res,4);
+		}
+	}	
+	return 0;
+	out:
+		return -1;
+}
+
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@d33 1
+a33 1
+	sprintf(c,"client%d",1);
+d46 1
+a46 1
+		execl(./c,c,cfdr,cfdw,NULL);
+@
+
+
+1.15
+log
+@modifying for generic
+@
+text
+@d46 1
+a46 1
+		execl(./a,a,cfdr,cfdw,NULL);
+@
+
+
+1.14
+log
+@creating pipe for process1
+and then first write data of client in pipe
+and then read for result from process1
+when result received the then it for client1
+@
+text
+@d6 1
+a6 1
+	printf("in %s function",__FILE__);
+d13 1
+a13 1
+	char cfdw[4],cfdr[4],pfdw[4],pfdr[4];
+d33 1
+d45 2
+a46 1
+		execl("./client1","client1",cfdr,cfdw,NULL);
+d51 2
+a52 2
+		printf("data in pipe is :%d \n %d \n %c",a.oprnd1,a.oprnd2,a.oprtr);
+		printf(" in parent process with pid %d\n",getpid());
+d56 1
+@
+
+
+1.13
+log
+@sending read fd of pipe to client
+@
+text
+@d10 1
+a10 1
+	int pfd[2],cfd[2],retc,i,retp,ret;
+d40 1
+d51 13
+@
+
+
+1.12
+log
+@correcting error
+@
+text
+@d7 2
+a8 2
+	printf("How many client you want to serve :");
+	scanf("%d",&count);
+d13 1
+a13 1
+	char cfdw[4],pfdw[4];
+d31 2
+a32 1
+	sprintf(cfdw,"%d",cfd[1]);	
+d43 1
+a43 1
+		execl("./client1","client1",cfdw,NULL);
+@
+
+
+1.11
+log
+@data read from pipe
+@
+text
+@d46 1
+a46 1
+		read(cfdr,&a,sizeof(a));
+@
+
+
+1.10
+log
+@trying to create n pipe
+@
+text
+@d12 1
+a12 1
+	struct data d;
+d14 1
+a14 1
+	for(i=1;i<=count;i++,count1--)
+d23 1
+a23 1
+	}
+d46 2
+@
+
+
+1.9
+log
+@using fork in the clild execl to client1
+@
+text
+@d5 1
+a5 1
+	int n;
+d7 3
+a9 1
+	//printf("How many client you want to serve %d:",n);
+d11 1
+d14 1
+a14 1
+	/*for(i=1;i<=n;i++)
+d17 7
+a23 2
+		fd[2n-1]=
+	} */
+@
+
+
+1.8
+log
+@correcting errors
+@
+text
+@d7 5
+a11 3
+	printf("How many client you want to serve %d:",n);
+	int fd[2*n],ret,i;
+	for(i=1;i<=n;i++)
+d14 5
+a18 2
+	} 
+	for(i=0;i<2*n;i++)
+d20 20
+a39 2
+		printf("different pipe fd's :%d\n",fd[i]);
+	} 
+d41 2
+@
+
+
+1.7
+log
+@try to crete n pipe
+@
+text
+@d8 1
+a8 1
+	int fd[2*n],ret;
+@
+
+
+1.6
+log
+@correcting header error
+@
+text
+@d5 12
+a16 2
+
+
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+#include"structure.h"
+@
+
+
+1.4
+log
+@debugging header file error
+@
+text
+@d2 1
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+#include<stdio.h> 
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+#include "header.h"
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+#include"header.h"
+@

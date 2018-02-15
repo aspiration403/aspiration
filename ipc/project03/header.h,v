@@ -1,0 +1,124 @@
+head	1.6;
+access;
+symbols;
+locks
+	root:1.6; strict;
+comment	@ * @;
+
+
+1.6
+date	2015.04.25.13.01.27;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.04.25.12.42.46;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.04.24.17.24.54;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.04.24.17.20.49;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.04.24.17.01.58;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.04.24.16.59.41;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@defined the header file
+@
+
+
+1.6
+log
+@define global signal handler
+@
+text
+@#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<signal.h>
+signal(SIGUSR1,handle_signal);
+void handle_signal()
+{
+	printf("got a signal");
+};
+struct data
+{
+	int oprnd1,oprnd2;
+	char oprtr;
+};
+
+
+
+
+@
+
+
+1.5
+log
+@included sys/types.h
+@
+text
+@d6 5
+@
+
+
+1.4
+log
+@correcting missing semi colon
+@
+text
+@d4 2
+@
+
+
+1.3
+log
+@include structure header
+@
+text
+@d4 5
+a8 1
+
+@
+
+
+1.2
+log
+@written the prototype of data structure
+@
+text
+@d4 5
+a8 5
+struct data
+{
+	int oprnd1,oprnd2;
+	char oprtr;
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 5
+a8 1
+
+@

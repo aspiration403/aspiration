@@ -1,0 +1,1 @@
+cmd_/home/raman/project6/raman.ko := ld -r -m elf_x86_64 -T /usr/src/kernels/3.6.11-4.fc16.x86_64/scripts/module-common.lds --build-id  -o /home/raman/project6/raman.ko /home/raman/project6/raman.o /home/raman/project6/raman.mod.o

@@ -1,0 +1,12 @@
+head	;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+
+desc
+@this is test file
+which contain all script
+@

@@ -1,0 +1,228 @@
+head	1.10;
+access;
+symbols;
+locks
+	root:1.10; strict;
+comment	@ * @;
+
+
+1.10
+date	2015.04.25.13.01.48;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2015.04.25.12.38.43;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2015.04.25.07.23.53;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2015.04.25.06.13.53;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2015.04.25.05.54.30;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2015.04.25.05.39.57;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2015.04.25.05.30.46;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.04.25.04.14.49;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.04.25.04.13.26;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.04.21.16.30.52;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@created main function
+using header file header.h
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@#include"header.h"
+/*void handle_message()
+{
+	printf("receive signal ");
+}*/	
+int main(int argc,char *argv[])
+{
+	signal(SIGUSR1,handle_message);
+	struct data a;
+	int wfd,rfd,nwrite,client1_result;
+	if(argc<3)
+	{
+		perror(" CLI argument error ");
+		goto out;
+	}
+	printf(" No. of argument received %d:\n",argc);
+	rfd=atoi(argv[1]);
+	wfd=atoi(argv[2]);
+
+	printf("write desc. received value :%d \n",wfd);
+	a.oprnd1=20;
+	a.oprnd2=30;
+	a.oprtr='+';
+	nwrite=write(wfd,&a,sizeof(a));
+	printf("No. of bytes written :%d",nwrite);
+	pause(); 
+	read(rfd,&client1_result,4);
+	printf("Result of client 1 :%d \n",client1_result);
+	return 0;
+	out:
+		return -1;
+}
+
+@
+
+
+1.9
+log
+@replacing sleep with pause
+@
+text
+@d2 1
+a2 1
+void handle_message()
+d5 1
+a5 1
+}	
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d2 4
+d8 1
+d26 1
+a26 1
+	sleep(1); 
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d21 1
+a21 1
+ 
+@
+
+
+1.6
+log
+@wait for result
+@
+text
+@d22 1
+a22 1
+	read(fdr,&client1_result,4);
+@
+
+
+1.5
+log
+@written data in pipe
+@
+text
+@d5 2
+a6 2
+	int wfd,nwrite;
+	if(argc<2)
+d12 3
+a14 1
+	wfd=atoi(argv[1]);
+d20 4
+a23 1
+	printf("No. of bytes written :%d",nwrite); 
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d4 2
+a5 1
+	int wfd;
+d14 5
+a18 1
+	 
+@
+
+
+1.3
+log
+@correcting argument error
+@
+text
+@d5 1
+a5 1
+/*	if(argc<3)
+d9 1
+a9 1
+	}*/
+d12 2
+a13 1
+	printf("write desc. received value :%d \n",wfd); 
+@
+
+
+1.2
+log
+@read the argument received
+@
+text
+@d5 1
+a5 1
+	if(argc<3)
+d9 1
+a9 1
+	}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 9
+a12 1
+	
+d14 2
+@

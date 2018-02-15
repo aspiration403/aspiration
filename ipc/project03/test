@@ -1,0 +1,29 @@
+#!/bin/bash
+ci header.h
+ci structure.h
+ci server.c
+ci client1.c
+ci client2.c
+ci process1.c
+
+co header.h
+co structure.h
+co server.c
+co client1.c
+co client2.c
+co process1.c
+
+gcc -o server server.c
+read
+
+gcc -o  client1 client1.c 
+read
+gcc -o client2 client2.c
+read
+gcc -o process1 process1.c
+read
+
+./server
+
+rm -rf client1 client2 process1 *.o
+rm -rf *.o

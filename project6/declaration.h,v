@@ -1,0 +1,40 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2015.11.03.06.01.33;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@declaring the variable used for my own driver
+we take struct cdev from kernel data structure from cdev.h
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@extern dev_t pdevice;
+extern int major,minor;
+
+struct mydev
+{
+	struct cdev kern_dev;
+	
+};
+extern mydev *Dev;
+
+
+
+
+
+@

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+rm -rf client1
+rm -rf client2
+rm -rf client3
+rm -rf client4
+make client1
+make client2
+make client3
+make client4
+echo "Enter exit to out from loop"
+read data
+
+while [ "$data" != "exit" ]
+do
+	./client1
+	./client2
+	./client3
+	./client4
+	
+done
+
+rm -rf client1
+rm -rf client2
+rm -rf client3
+rm -rf client4

@@ -1,0 +1,1 @@
+cmd_/home/raman/serial_port_cyclic_buffer/raman.ko := ld -r -m elf_i386 -T /usr/src/kernels/2.6.43.8-1.fc15.i686.PAE/scripts/module-common.lds --build-id  -o /home/raman/serial_port_cyclic_buffer/raman.ko /home/raman/serial_port_cyclic_buffer/raman.o /home/raman/serial_port_cyclic_buffer/raman.mod.o
