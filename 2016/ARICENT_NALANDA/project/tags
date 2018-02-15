@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BUFSIZE	client_helper.c	2;"	d	file:
+check_file_validity	server_helper.c	/^bool check_file_validity(char *file)$/;"	f
+list	server_helper.c	/^GSList *list = NULL;$/;"	v
+main	client.c	/^int main(int argc, char *argv[])$/;"	f
+main	server.c	/^int main(int argc, char *argv[])$/;"	f
+process_file	server_helper.c	/^void process_file(int client_sd, char *file)$/;"	f
+put_matched_pattern_in_ds	server_helper.c	/^void put_matched_pattern_in_ds(char *file)$/;"	f
+read_file	server_helper.c	/^void read_file(int conn_sd)$/;"	f
+recieveData	client_helper.c	/^void recieveData(int conn_sd)$/;"	f
+sendFileToServer	client_helper.c	/^void sendFileToServer(int sock_id, char *fileName )$/;"	f
+send_data_to_client	server_helper.c	/^void send_data_to_client(int conn_sd)$/;"	f
+show_filtered_output	server_helper.c	/^void show_filtered_output()$/;"	f

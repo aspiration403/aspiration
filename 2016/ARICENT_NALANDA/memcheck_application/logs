@@ -1,0 +1,71 @@
+==1896== Memcheck, a memory error detector
+==1896== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==1896== Using Valgrind-3.6.1 and LibVEX; rerun with -h for copyright info
+==1896== Command: ./a.out
+==1896== Parent PID: 1744
+==1896== 
+--1896-- 
+--1896-- Valgrind options:
+--1896--    -v
+--1896--    --log-file=logs
+--1896--    --tool=memcheck
+--1896--    --track-origins=yes
+--1896-- Contents of /proc/version:
+--1896--   Linux version 3.6.11-4.fc16.x86_64 (mockbuild@bkernel02) (gcc version 4.6.3 20120306 (Red Hat 4.6.3-2) (GCC) ) #1 SMP Tue Jan 8 20:57:42 UTC 2013
+--1896-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--1896-- Page sizes: currently 4096, max supported 4096
+--1896-- Valgrind library directory: /usr/lib64/valgrind
+--1896-- Reading syms from /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out (0x400000)
+--1896-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux (0x38000000)
+--1896--    object doesn't have a dynamic symbol table
+--1896-- Reading syms from /lib64/ld-2.14.90.so (0x30a0800000)
+--1896-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+--1896-- REDIR: 0x30a0818640 (strlen) redirected to 0x3805f597 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--1896-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so (0x4801000)
+--1896-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so (0x4a03000)
+==1896== WARNING: new redirection conflicts with existing -- ignoring it
+--1896--     new: 0x30a0818640 (strlen              ) R-> 0x04a07e00 strlen
+--1896-- REDIR: 0x30a08184b0 (index) redirected to 0x4a07a60 (index)
+--1896-- REDIR: 0x30a0818530 (strcmp) redirected to 0x4a089c0 (strcmp)
+--1896-- Reading syms from /lib64/libc-2.14.90.so (0x30a0c00000)
+--1896-- REDIR: 0x30a0c8e570 (strncasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--1896-- REDIR: 0x30a0c8c2b0 (strcasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--1896-- REDIR: 0x30a0c8a040 (__GI_strrchr) redirected to 0x4a07880 (__GI_strrchr)
+==1896== Conditional jump or move depends on uninitialised value(s)
+==1896==    at 0x4004F9: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896==  Uninitialised value was created by a stack allocation
+==1896==    at 0x4004C4: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896== 
+--1896-- REDIR: 0x30a0c92160 (strchrnul) redirected to 0x4a09e10 (strchrnul)
+--1896-- REDIR: 0x30a0c82830 (free) redirected to 0x4a065c0 (free)
+==1896== Conditional jump or move depends on uninitialised value(s)
+==1896==    at 0x400578: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896==  Uninitialised value was created by a stack allocation
+==1896==    at 0x4004C4: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896== 
+==1896== 
+==1896== HEAP SUMMARY:
+==1896==     in use at exit: 0 bytes in 0 blocks
+==1896==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==1896== 
+==1896== All heap blocks were freed -- no leaks are possible
+==1896== 
+==1896== ERROR SUMMARY: 7 errors from 2 contexts (suppressed: 2 from 2)
+==1896== 
+==1896== 1 errors in context 1 of 2:
+==1896== Conditional jump or move depends on uninitialised value(s)
+==1896==    at 0x4004F9: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896==  Uninitialised value was created by a stack allocation
+==1896==    at 0x4004C4: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896== 
+==1896== 
+==1896== 6 errors in context 2 of 2:
+==1896== Conditional jump or move depends on uninitialised value(s)
+==1896==    at 0x400578: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896==  Uninitialised value was created by a stack allocation
+==1896==    at 0x4004C4: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1896== 
+--1896-- 
+--1896-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==1896== 
+==1896== ERROR SUMMARY: 7 errors from 2 contexts (suppressed: 2 from 2)

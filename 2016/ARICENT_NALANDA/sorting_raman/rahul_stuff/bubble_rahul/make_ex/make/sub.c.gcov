@@ -1,0 +1,21 @@
+        -:    0:Source:../src/sub.c
+        -:    0:Programs:0
+        -:    1:#include<stdio.h>
+        -:    2:#include<stdlib.h>
+        -:    3:
+    #####:    4:int sub()
+        -:    5:{
+        -:    6:	int a,b;
+    #####:    7:	printf(" Enter two values to subtract :");
+    #####:    8:	scanf("%d %d",&a,&b);
+    #####:    9:	if (a > b)
+        -:   10:	{
+    #####:   11:		printf(" In IF block, After subtraction : %d\n",a-b);
+        -:   12:	}
+        -:   13:	else
+        -:   14:	{
+    #####:   15:		printf(" In ELSE block, After subtraction : %d\n",a-b);
+        -:   16:	}
+    #####:   17:	printf(" \n");
+    #####:   18:	return 0;
+        -:   19:}

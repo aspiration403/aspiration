@@ -1,0 +1,28 @@
+        -:    0:Source:../src/main.c
+        -:    0:Programs:0
+        -:    1:#include<stdio.h>
+        -:    2:#include<stdlib.h>
+        -:    3://#include"sub.c"
+        -:    4:
+        -:    5:extern int sub();
+        -:    6:
+    #####:    7:int main()
+        -:    8:{
+        -:    9:	int a,b;
+    #####:   10:	printf(" Enter two numbers :");
+    #####:   11:	scanf("%d %d",&a,&b);
+        -:   12:	
+    #####:   13:	if(a > b)
+        -:   14:	{
+    #####:   15:		printf(" In if block..\n");
+        -:   16:	}
+        -:   17:	else
+        -:   18:	{
+    #####:   19:		printf(" In else block..\n");
+    #####:   20:		sub();
+        -:   21:	}
+    #####:   22:	printf(" Sum  = %d\n",a+b);
+        -:   23:
+    #####:   24:	printf("\n");
+    #####:   25:	return 0;
+        -:   26:}

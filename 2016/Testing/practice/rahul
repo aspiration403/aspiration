@@ -1,0 +1,49 @@
+==2604== Memcheck, a memory error detector
+==2604== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==2604== Using Valgrind-3.6.1 and LibVEX; rerun with -h for copyright info
+==2604== Command: ./main_rahul 4
+==2604== Parent PID: 2015
+==2604== 
+--2604-- 
+--2604-- Valgrind options:
+--2604--    -v
+--2604--    --tool=memcheck
+--2604--    --log-file=rahul
+--2604--    --leak-check=full
+--2604-- Contents of /proc/version:
+--2604--   Linux version 3.6.11-4.fc16.x86_64 (mockbuild@bkernel02) (gcc version 4.6.3 20120306 (Red Hat 4.6.3-2) (GCC) ) #1 SMP Tue Jan 8 20:57:42 UTC 2013
+--2604-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--2604-- Page sizes: currently 4096, max supported 4096
+--2604-- Valgrind library directory: /usr/lib64/valgrind
+--2604-- Reading syms from /home/raman/2016/Testing/practice/main_rahul (0x400000)
+--2604-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux (0x38000000)
+--2604--    object doesn't have a dynamic symbol table
+--2604-- Reading syms from /lib64/ld-2.14.90.so (0x30a0800000)
+--2604-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+--2604-- REDIR: 0x30a0818640 (strlen) redirected to 0x3805f597 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--2604-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so (0x4801000)
+--2604-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so (0x4a03000)
+==2604== WARNING: new redirection conflicts with existing -- ignoring it
+--2604--     new: 0x30a0818640 (strlen              ) R-> 0x04a07e00 strlen
+--2604-- REDIR: 0x30a08184b0 (index) redirected to 0x4a07a60 (index)
+--2604-- REDIR: 0x30a0818530 (strcmp) redirected to 0x4a089c0 (strcmp)
+--2604-- Reading syms from /lib64/libc-2.14.90.so (0x30a0c00000)
+--2604-- REDIR: 0x30a0c8e570 (strncasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--2604-- REDIR: 0x30a0c8c2b0 (strcasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--2604-- REDIR: 0x30a0c8a040 (__GI_strrchr) redirected to 0x4a07880 (__GI_strrchr)
+--2604-- REDIR: 0x30a0c821f0 (malloc) redirected to 0x4a07460 (malloc)
+--2604-- REDIR: 0x30a0c92160 (strchrnul) redirected to 0x4a09e10 (strchrnul)
+--2604-- REDIR: 0x30a0c82830 (free) redirected to 0x4a065c0 (free)
+--2604-- REDIR: 0x30a0c8a720 (memchr) redirected to 0x4a08a80 (memchr)
+==2604== 
+==2604== HEAP SUMMARY:
+==2604==     in use at exit: 0 bytes in 0 blocks
+==2604==   total heap usage: 4 allocs, 4 frees, 200 bytes allocated
+==2604== 
+==2604== All heap blocks were freed -- no leaks are possible
+==2604== 
+==2604== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 2 from 2)
+--2604-- 
+--2604-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==2604== 
+==2604== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 2 from 2)

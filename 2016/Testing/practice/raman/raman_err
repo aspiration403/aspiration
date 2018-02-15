@@ -1,0 +1,135 @@
+==7106== Memcheck, a memory error detector
+==7106== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==7106== Using Valgrind-3.6.1 and LibVEX; rerun with -h for copyright info
+==7106== Command: ./Result 5
+==7106== Parent PID: 2248
+==7106== 
+--7106-- 
+--7106-- Valgrind options:
+--7106--    -v
+--7106--    --tool=memcheck
+--7106--    --log-file=raman_err
+--7106-- Contents of /proc/version:
+--7106--   Linux version 3.6.11-4.fc16.x86_64 (mockbuild@bkernel02) (gcc version 4.6.3 20120306 (Red Hat 4.6.3-2) (GCC) ) #1 SMP Tue Jan 8 20:57:42 UTC 2013
+--7106-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--7106-- Page sizes: currently 4096, max supported 4096
+--7106-- Valgrind library directory: /usr/lib64/valgrind
+--7106-- Reading syms from /home/raman/2016/Testing/practice/raman/Result (0x400000)
+--7106-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux (0x38000000)
+--7106--    object doesn't have a dynamic symbol table
+--7106-- Reading syms from /lib64/ld-2.14.90.so (0x30a0800000)
+--7106-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+--7106-- REDIR: 0x30a0818640 (strlen) redirected to 0x3805f597 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--7106-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so (0x4801000)
+--7106-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so (0x4a03000)
+==7106== WARNING: new redirection conflicts with existing -- ignoring it
+--7106--     new: 0x30a0818640 (strlen              ) R-> 0x04a07e00 strlen
+--7106-- REDIR: 0x30a08184b0 (index) redirected to 0x4a07a60 (index)
+--7106-- REDIR: 0x30a0818530 (strcmp) redirected to 0x4a089c0 (strcmp)
+--7106-- Reading syms from /lib64/libc-2.14.90.so (0x30a0c00000)
+--7106-- REDIR: 0x30a0c8e570 (strncasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--7106-- REDIR: 0x30a0c8c2b0 (strcasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--7106-- REDIR: 0x30a0c8a040 (__GI_strrchr) redirected to 0x4a07880 (__GI_strrchr)
+--7106-- REDIR: 0x30a0c821f0 (malloc) redirected to 0x4a07460 (malloc)
+--7106-- REDIR: 0x30a0c8a720 (memchr) redirected to 0x4a08a80 (memchr)
+==7106== Invalid write of size 8
+==7106==    at 0x40075F: getLine (main_entry.c:21)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== Invalid read of size 8
+==7106==    at 0x40076F: getLine (main_entry.c:22)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== Invalid read of size 8
+==7106==    at 0x4007AF: getLine (main_entry.c:27)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+--7106-- REDIR: 0x30a0c87ef0 (strcpy) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--7106-- REDIR: 0x30a0c95fc0 (__strcpy_sse2_unaligned) redirected to 0x4a07e20 (strcpy)
+==7106== Invalid read of size 8
+==7106==    at 0x40086B: main (main_entry.c:71)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+--7106-- REDIR: 0x30a0c92160 (strchrnul) redirected to 0x4a09e10 (strchrnul)
+--7106-- REDIR: 0x30a0c82830 (free) redirected to 0x4a065c0 (free)
+==7106== Invalid read of size 8
+==7106==    at 0x4008B1: main (main_entry.c:75)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== 
+==7106== HEAP SUMMARY:
+==7106==     in use at exit: 0 bytes in 1 blocks
+==7106==   total heap usage: 6 allocs, 5 frees, 71 bytes allocated
+==7106== 
+==7106== Searching for pointers to 1 not-freed blocks
+==7106== Checked 73,704 bytes
+==7106== 
+==7106== LEAK SUMMARY:
+==7106==    definitely lost: 0 bytes in 0 blocks
+==7106==    indirectly lost: 0 bytes in 0 blocks
+==7106==      possibly lost: 0 bytes in 0 blocks
+==7106==    still reachable: 0 bytes in 1 blocks
+==7106==         suppressed: 0 bytes in 0 blocks
+==7106== Rerun with --leak-check=full to see details of leaked memory
+==7106== 
+==7106== ERROR SUMMARY: 25 errors from 5 contexts (suppressed: 2 from 2)
+==7106== 
+==7106== 5 errors in context 1 of 5:
+==7106== Invalid read of size 8
+==7106==    at 0x4008B1: main (main_entry.c:75)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== 
+==7106== 5 errors in context 2 of 5:
+==7106== Invalid read of size 8
+==7106==    at 0x40086B: main (main_entry.c:71)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== 
+==7106== 5 errors in context 3 of 5:
+==7106== Invalid read of size 8
+==7106==    at 0x4007AF: getLine (main_entry.c:27)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== 
+==7106== 5 errors in context 4 of 5:
+==7106== Invalid read of size 8
+==7106==    at 0x40076F: getLine (main_entry.c:22)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+==7106== 
+==7106== 5 errors in context 5 of 5:
+==7106== Invalid write of size 8
+==7106==    at 0x40075F: getLine (main_entry.c:21)
+==7106==    by 0x40084D: main (main_entry.c:68)
+==7106==  Address 0x4c30040 is 0 bytes after a block of size 0 alloc'd
+==7106==    at 0x4A074CD: malloc (vg_replace_malloc.c:236)
+==7106==    by 0x40081C: main (main_entry.c:66)
+==7106== 
+--7106-- 
+--7106-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==7106== 
+==7106== ERROR SUMMARY: 25 errors from 5 contexts (suppressed: 2 from 2)

@@ -1,0 +1,64 @@
+==1837== Memcheck, a memory error detector
+==1837== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==1837== Using Valgrind-3.6.1 and LibVEX; rerun with -h for copyright info
+==1837== Command: ./a.out
+==1837== Parent PID: 1744
+==1837== 
+--1837-- 
+--1837-- Valgrind options:
+--1837--    -v
+--1837--    --log-file=raman
+--1837--    --track-origins=yes
+--1837--    --tool=memcheck
+--1837-- Contents of /proc/version:
+--1837--   Linux version 3.6.11-4.fc16.x86_64 (mockbuild@bkernel02) (gcc version 4.6.3 20120306 (Red Hat 4.6.3-2) (GCC) ) #1 SMP Tue Jan 8 20:57:42 UTC 2013
+--1837-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--1837-- Page sizes: currently 4096, max supported 4096
+--1837-- Valgrind library directory: /usr/lib64/valgrind
+--1837-- Reading syms from /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out (0x400000)
+--1837-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux (0x38000000)
+--1837--    object doesn't have a dynamic symbol table
+--1837-- Reading syms from /lib64/ld-2.14.90.so (0x30a0800000)
+--1837-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+--1837-- REDIR: 0x30a0818640 (strlen) redirected to 0x3805f597 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--1837-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so (0x4801000)
+--1837-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so (0x4a03000)
+==1837== WARNING: new redirection conflicts with existing -- ignoring it
+--1837--     new: 0x30a0818640 (strlen              ) R-> 0x04a07e00 strlen
+--1837-- REDIR: 0x30a08184b0 (index) redirected to 0x4a07a60 (index)
+--1837-- REDIR: 0x30a0818530 (strcmp) redirected to 0x4a089c0 (strcmp)
+--1837-- Reading syms from /lib64/libc-2.14.90.so (0x30a0c00000)
+--1837-- REDIR: 0x30a0c8e570 (strncasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--1837-- REDIR: 0x30a0c8c2b0 (strcasecmp) redirected to 0x4801610 (_vgnU_ifunc_wrapper)
+--1837-- REDIR: 0x30a0c8a040 (__GI_strrchr) redirected to 0x4a07880 (__GI_strrchr)
+==1837== Syscall param exit_group(status) contains uninitialised byte(s)
+==1837==    at 0x30A0CBDDC8: _Exit (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C3998F: __run_exit_handlers (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C399B4: exit (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C216A3: (below main) (in /lib64/libc-2.14.90.so)
+==1837==  Uninitialised value was created by a stack allocation
+==1837==    at 0x400474: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1837== 
+--1837-- REDIR: 0x30a0c82830 (free) redirected to 0x4a065c0 (free)
+==1837== 
+==1837== HEAP SUMMARY:
+==1837==     in use at exit: 0 bytes in 0 blocks
+==1837==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==1837== 
+==1837== All heap blocks were freed -- no leaks are possible
+==1837== 
+==1837== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 2 from 2)
+==1837== 
+==1837== 1 errors in context 1 of 1:
+==1837== Syscall param exit_group(status) contains uninitialised byte(s)
+==1837==    at 0x30A0CBDDC8: _Exit (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C3998F: __run_exit_handlers (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C399B4: exit (in /lib64/libc-2.14.90.so)
+==1837==    by 0x30A0C216A3: (below main) (in /lib64/libc-2.14.90.so)
+==1837==  Uninitialised value was created by a stack allocation
+==1837==    at 0x400474: main (in /home/raman/2016/ARICENT_NALANDA/memcheck_application/a.out)
+==1837== 
+--1837-- 
+--1837-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==1837== 
+==1837== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 2 from 2)
